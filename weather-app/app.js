@@ -22,17 +22,18 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
         console.log(errorMessage);
     }
     else {
-        console.log(JSON.stringify(results, undefined, 2));
+        console.log(`Address: ${results.address}`);
+
+        weather.getWeather(results.latitude, results.longitude, (errorMessage, weatherResults) => {
+            if (errorMessage) {
+                console.log(errorMessage);
+            }
+            else {
+                console.log(`It's currently ${weatherResults.temperature}.\n`
+                + `It feels like ${weatherResults.apparentTemperature}.`);
+            }
+        });
     }
 });
 const latitude = 37.8267;
 const longitude = -122.4233;
-
-weather.getWeather(latitude, longitude, (errorMessage, results) => {
-    if (errorMessage) {
-        console.log(errorMessage);
-    }
-    else {
-        console.log(JSON.stringify(results, undefined, 2));
-    }
-});
