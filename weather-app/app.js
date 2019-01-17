@@ -1,12 +1,26 @@
 
-const request = require('request');
+const yargs = require('yargs');
 
-request({
-    url: 'http://www.mapquestapi.com/geocoding/v1/address?key=TuZIGVjYQ7g5k66GuJLqtWRymdAG8QaW&location=1301%20lombard%20street%20philadelphia',
-    json: true
-}, (error, response, body) => {
-    console.log(`Address: ${body.results[0].formatted_address}`);
-    console.log(`Latitude: ${body.results[0].locations[0].latLng.lat}`);
-    console.log(`Longitude: ${body.results[0].locations[0].latLng.lng}`);
+const geocode = require('./geocode/geocode.js');
 
+const argv = yargs
+    .options({
+        a: {
+            demand: true,
+            alias: 'address',
+            describe: 'Address to fetch weather for',
+            string: true
+        }
+    })
+    .help()
+    .alias('help', 'h')
+    .argv;
+
+geocode.geocodeAddress(argv.address, (errorMessage, results) => {
+    if (errorMessage) {
+        console.log(errorMessage);
+    }
+    else {
+        console.log(JSON.stringify(results, undefined, 2));
+    }
 });
