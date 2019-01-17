@@ -13,7 +13,7 @@ var geocodeAddress = (address, callback) => {
     }, (error, response, body) => {
 
         if (error) {
-            callback('Unable to connect to service');
+            callback('Unable to connect to geo service');
         }
         else if (body.status === 'ZERO_RESULTS') {
             callback('Unable to find that address');
@@ -35,6 +35,4 @@ var geocodeAddress = (address, callback) => {
 };
 
 
-module.exports = {
-    geocodeAddress
-};
+module.exports.geocodeAddress = geocodeAddress;
